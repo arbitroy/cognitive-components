@@ -1,5 +1,6 @@
 'use client'
-import React, { useState, FormEvent } from 'react'
+import Link from 'next/link'
+import { FormEvent, useState } from 'react'
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -38,95 +39,100 @@ export default function Page() {
   }
 
   return (
-    <div className="min-h-screen flex items-center
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <header className='bg-blue-300 shadow'>
+        <nav>
+          <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+            <div className="relative flex items-center justify-between h-16">
+              <div className="flex-1 flex items-center justify-start">
+                <Link href="/" className="text-gray-900 text-lg font-semibold">Cognitive Components</Link>
+              </div>
+              <div className="flex items-center space-x-4">
+                <Link href="/about" className="text-gray-700 hover:text-gray-900">About</Link>
+                <Link href="/contact" className="text-gray-700 hover:text-gray-900">Contact</Link>
+              </div>
+            </div>
+          </div>
+        </nav>
+      </header>
+      <main className="flex-grow container px-4 py-8">
+        <div className="min-h-screen flex items-center
                         justify-center bg-gray-100">
-      <div className="bg-white p-6 rounded-lg
-                            shadow-lg w-full max-w-lg">
-        <h2 className="text-2xl font-semibold
-                               text-center mb-6">
-          Register
-        </h2>
-        <form className="space-y-4">
-          <div>
-            <label className="block mb-2 text-sm
-                                          font-medium text-gray-600">
-              Full Name
-            </label>
-            <input
-              type="text"
-              className="w-full px-4 py-2 border
-                                       border-gray-300 rounded-md
-                                       focus:outline-none focus:ring-2
-                                       focus:ring-indigo-500"
-              placeholder="Enter your name"
-            />
-          </div>
-          <div>
-            <label className="block mb-2 text-sm
-                                          font-medium text-gray-600">
-              Email Address
-            </label>
-            <input
-              type="email"
-              className="w-full px-4 py-2 border
-                                       border-gray-300 rounded-md
-                                       focus:outline-none focus:ring-2
-                                       focus:ring-indigo-500"
-              placeholder="Enter your email"
-            />
-          </div>
-          <div>
-            <label className="block mb-2 text-sm
-                                          font-medium text-gray-600">
-              Password
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-2 border
-                                       border-gray-300 rounded-md
-                                       focus:outline-none focus:ring-2
-                                       focus:ring-indigo-500"
-              placeholder="Enter your password"
-            />
-          </div>
-          <div>
-            <label className="block mb-2 text-sm font-medium
-                                          text-gray-600">
-              Confirm Password
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-2 border
-                                       border-gray-300 rounded-md
-                                       focus:outline-none focus:ring-2
-                                       focus:ring-indigo-500"
-              placeholder="Confirm your password"
-            />
-          </div>
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              className="h-4 w-4 text-indigo-600
-                                       border-gray-300 rounded"
-            />
-            <label className="ml-2 text-sm
-                                          text-gray-600">
-              I agree to the terms and conditions
-            </label>
-          </div>
-          <div>
-            <button
-              type="submit"
-              className="w-full px-4 py-2 text-white
-                                       bg-indigo-500 rounded-md
-                                       hover:bg-indigo-600 focus:outline-none
-                                       focus:bg-indigo-700"
-            >
-              Register
-            </button>
-          </div>
-        </form>
-      </div>
+          <form className="w-full max-w-lg bg-white p-5 rounded-lg shadow-md" onSubmit={onSubmit}>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">
+                  First Name
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:ring-2 focus:ring-blue-400" id="grid-first-name" name="firstName" type="text" placeholder="Jane" required />
+              </div>
+              <div className="w-full md:w-1/2 px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-last-name">
+                  Last Name
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-400" id="grid-last-name" name="lastName" type="text" placeholder="Doe" required />
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-6">
+              <div className="w-full px-3">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-password">
+                  Password
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-blue-400" id="grid-password" name="password" type="password" placeholder="******************" required />
+              </div>
+            </div>
+            <div className="flex flex-wrap -mx-3 mb-2">
+              <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-city">
+                  City
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-400" id="grid-city" name="city" type="text" placeholder="Albuquerque" required />
+              </div>
+              <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-state">
+                  State
+                </label>
+                <div className="relative">
+                  <select className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-blue-400" id="grid-state" name="state" required>
+                    <option>New Mexico</option>
+                    <option>Missouri</option>
+                    <option>Texas</option>
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+                  </div>
+                </div>
+              </div>
+              <div className="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-zip">
+                  Zip
+                </label>
+                <input className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-blue-400" id="grid-zip" name="zip" type="text" placeholder="90210" required />
+              </div>
+            </div>
+            {error && (
+              <div className="text-red-600 text-sm mb-4">{error}</div>
+            )}
+            <div className="flex justify-end space-x-4 mt-8">
+              <button
+                type="button"
+                className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded focus:outline-none focus:ring-2 focus:ring-green-400 transition-colors duration-200"
+                onClick={() => alert('Smart Paste feature coming soon!')}
+                disabled={isLoading}
+              >
+                Smart Paste
+              </button>
+              <button
+                type="submit"
+                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded focus:outline-none focus:ring-2 focus:ring-blue-400 transition-colors duration-200"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Submitting...' : 'Submit'}
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
     </div>
   )
 }
