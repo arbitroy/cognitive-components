@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
 import { FormEvent, useState } from 'react'
+import Header from './components/Header'
 
 export default function Page() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -40,21 +41,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
-      <header className='bg-blue-300 shadow'>
-        <nav>
-          <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-            <div className="relative flex items-center justify-between h-16">
-              <div className="flex-1 flex items-center justify-start">
-                <Link href="/" className="text-gray-900 text-lg font-semibold">Cognitive Components</Link>
-              </div>
-              <div className="flex items-center space-x-4">
-                <Link href="/about" className="text-gray-700 hover:text-gray-900">About</Link>
-                <Link href="/contact" className="text-gray-700 hover:text-gray-900">Contact</Link>
-              </div>
-            </div>
-          </div>
-        </nav>
-      </header>
+      <Header title="Cognitive Components" />
       <main className="flex-grow container px-4 py-8">
         <div className="min-h-screen flex items-center
                         justify-center bg-gray-100">
