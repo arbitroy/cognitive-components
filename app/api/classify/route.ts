@@ -8,12 +8,14 @@ export async function GET(request: { nextUrl: { searchParams: { get: (arg0: stri
             error: 'Missing text parameter',
         }, { status: 400 });
     }
+    console.log(text)
     // Get the classification pipeline. When called for the first time,
     // this will load the pipeline and cache it for future use.
     const classifier = await PipelineSingleton.getInstance();
 
     // Actually perform the classification
     const result = await classifier(text);
+    console.log(result)
 
     return NextResponse.json(result);
 }
