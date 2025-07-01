@@ -21,7 +21,6 @@ const Header: React.FC<HeaderProps> = ({ title = 'My App' }) => (
                     </div>
                     <div className="flex items-center space-x-4">
                         <Link href="/classify" className=" hover:text-gray-900">Classify</Link>
-                        <Link href="/chat" className="hover:text-gray-900">Chat</Link>
                     </div>
                 </div>
             </div>

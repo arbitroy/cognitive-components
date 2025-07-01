@@ -18,6 +18,7 @@ export default function ClassifyPage() {
 
         // If this is the first time we've made a request, set the ready flag.
         if (!ready) setReady(true);
+        console.log(result.status,result.json());
 
         const json = await result.json();
         setResult(json);
