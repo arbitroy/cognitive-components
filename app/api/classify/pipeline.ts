@@ -1,38 +1,36 @@
-import { pipeline, PipelineType } from "@huggingface/transformers";
+import { pipeline } from "@huggingface/transformers";
 
-// Use the Singleton pattern to enable lazy construction of the pipeline.
-// NOTE: We wrap the class in a function to prevent code duplication (see below).
-type ProgressCallback = ((progress: any) => void) | undefined;
+// Configuration for our text classification model
+const MODEL_NAME = 'Xenova/distilbert-base-uncased-finetuned-sst-2-english';
+const TASK = 'text-classification';
 
-const TASK: PipelineType = 'text-classification';
-const MODEL = 'Xenova/distilbert-base-uncased-finetuned-sst-2-english';
+// This will hold our loaded model instance
+let classifierInstance: any = null;
 
-// Declare global for hot reload in dev
-// eslint-disable-next-line no-var
-declare global {
-    var PipelineSingleton: ReturnType<typeof P> | undefined;
-}
-
-const P = () => class PipelineSingletonClass {
-    static task: PipelineType = TASK;
-    static model: string = MODEL;
-    static instance: Promise<any> | null = null;
-
-    static async getInstance(progress_callback: ProgressCallback = undefined): Promise<any> {
-        if (this.instance === null) {
-            this.instance = pipeline(this.task, this.model, { progress_callback });
-        }
-        return this.instance;
+/**
+ * Get the text classification model instance
+ * This function ensures we only load the model once and reuse it
+ */
+export async function getClassifier() {
+    // If we already have a loaded model, return it
+    if (classifierInstance) {
+        console.log('Using existing classifier instance');
+        return classifierInstance;
     }
-};
 
-let PipelineSingleton: ReturnType<typeof P>;
-if (process.env.NODE_ENV !== 'production') {
-    if (!global.PipelineSingleton) {
-        global.PipelineSingleton = P();
+    // If not, load the model for the first time
+    console.log('Loading classifier model...');
+    try {
+        classifierInstance = await pipeline(TASK, MODEL_NAME, {
+            dtype: 'fp32', // Explicitly specify data type to remove the warning
+            progress_callback: (progress: any) => {
+                console.log('Model loading progress:', progress);
+            }
+        });
+        console.log('Classifier model loaded successfully!');
+        return classifierInstance;
+    } catch (error) {
+        console.error('Failed to load classifier:', error);
+        throw error;
     }
-    PipelineSingleton = global.PipelineSingleton;
-} else {
-    PipelineSingleton = P();
 }
-export default PipelineSingleton;

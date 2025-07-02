@@ -1,21 +1,30 @@
 import { NextResponse } from 'next/server'
-import PipelineSingleton from './pipeline';
+import { getClassifier } from './pipeline';
 
 export async function GET(request: { nextUrl: { searchParams: { get: (arg0: string) => any; }; }; }) {
     const text = request.nextUrl.searchParams.get('text');
+    
     if (!text) {
         return NextResponse.json({
             error: 'Missing text parameter',
         }, { status: 400 });
     }
-    console.log(text)
-    // Get the classification pipeline. When called for the first time,
-    // this will load the pipeline and cache it for future use.
-    const classifier = await PipelineSingleton.getInstance();
 
-    // Actually perform the classification
-    const result = await classifier(text);
-    console.log(result)
+    console.log('Classifying text:', text);
+    
+    try {
+        // Get the classification model (loads it if needed)
+        const classifier = await getClassifier();
 
-    return NextResponse.json(result);
+        // Use the model to classify the text
+        const result = await classifier(text);
+        console.log('Classification result:', result);
+
+        return NextResponse.json(result);
+    } catch (error) {
+        console.error('Classification failed:', error);
+        return NextResponse.json({
+            error: 'Classification failed'
+        }, { status: 500 });
+    }
 }

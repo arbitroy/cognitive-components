@@ -3,25 +3,40 @@
 import { useState } from 'react'
 import Header from '../components/Header';
 
+type ClassificationResult = {
+    label?: string;
+    score?: number;
+    error?: string;
+} | null;
+
 export default function ClassifyPage() {
 
     // Keep track of the classification result and the model loading status.
-    const [result, setResult] = useState(null);
+    const [result, setResult] = useState<ClassificationResult>(null);
     const [ready, setReady] = useState<boolean | null>(null);
+
 
     const classify = async (text: string | number | boolean) => {
         if (!text) return;
         if (ready === null) setReady(false);
 
-        // Make a request to the /classify route on the server.
-        const result = await fetch(`/classify?text=${encodeURIComponent(text)}`);
+        try {
+            // Make a request to the /api/classify route on the server.
+            const result = await fetch(`/api/classify?text=${encodeURIComponent(text)}`);
 
-        // If this is the first time we've made a request, set the ready flag.
-        if (!ready) setReady(true);
-        console.log(result.status,result.json());
+            // If this is the first time we've made a request, set the ready flag.
+            if (!ready) setReady(true);
 
-        const json = await result.json();
-        setResult(json);
+            if (!result.ok) {
+                throw new Error(`HTTP error! status: ${result.status}`);
+            }
+
+            const json = await result.json();
+            setResult(json);
+        } catch (error) {
+            console.error('Classification error:', error);
+            setResult({ error: 'Failed to classify text' });
+        }
     };
     return (
         <div className="flex flex-col min-h-screen bg-gray-100">
