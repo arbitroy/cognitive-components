@@ -36,11 +36,12 @@ export default function ClassifyPage() {
         } catch (error) {
             console.error('Classification error:', error);
             setResult({ error: 'Failed to classify text' });
+            setReady(false);
         }
     };
     return (
         <div className="flex flex-col min-h-screen bg-gray-100">
-            <Header title="Cognitive Components" />
+            <Header />
             <main className="flex min-h-screen flex-col items-center justify-center p-12">
                 <h1 className="text-5xl font-bold mb-2 text-center">Simple Classifier</h1>
                 <h2 className="text-2xl mb-4 text-center">Type in a statement</h2>

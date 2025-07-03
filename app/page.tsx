@@ -41,8 +41,8 @@ export default function Page() {
 
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
-      <Header title="Cognitive Components" />
-      <main className="flex-grow container px-4 py-8">
+      <Header />
+      <main className="px-4 py-8">
         <div className="min-h-screen flex items-center
                         justify-center bg-gray-100">
           <form className="w-full max-w-lg bg-white p-5 rounded-lg shadow-md" onSubmit={onSubmit}>
