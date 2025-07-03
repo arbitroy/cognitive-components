@@ -1,13 +1,6 @@
 import { NextResponse } from "next/server";
 import { getClassifier } from "../classify/pipeline";
 
-type feedBackRequest = {
-    comment: string;
-    customer_name: string;
-    product: string;
-};
-
-
 export async function POST(request: Request) {
     try {
         const formData = await request.formData();
