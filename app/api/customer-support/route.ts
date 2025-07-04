@@ -1,10 +1,10 @@
 import { NextResponse } from "next/server";
-import { getClassifier } from "../classify/pipeline";
+import { classifyComment } from "./pipeline";
+
 
 export async function POST(request: Request) {
     try {
         const formData = await request.formData();
-
         const comment = formData.get('comment') as string;
         const customer_name = formData.get('customer_name') as string;
         const product = formData.get('product') as string;
@@ -14,19 +14,15 @@ export async function POST(request: Request) {
                 error: 'Missing required fields'
             }, { status: 400 });
         }
-
         try {
-            // Get the classification model (loads it if needed)
-            const classifier = await getClassifier();
-
             // Use the model to classify the text
-            const result = await classifier(comment);
+            const result = await classifyComment(comment, product);
             const feedbackEntry = {
-                caseType: result[0]?.label || 'Unknown',
-                title: comment.substring(0, 50) + '...', // Simple title for now
-                customer: customer_name,
-                product: product,
-                satisfaction: 'Good' // Mock for now, we'll add real classification later
+                caseType: result.caseType,
+                satisfaction: result.satisfaction,
+                title: result.title,
+                customer: customer_name,    // from form
+                product: product           // from form
             };
 
             return NextResponse.json({
